@@ -1,0 +1,60 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  background-color: rgb(87, 255, 199);
+}
+
+header {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem;
+}
+
+h1 {
+  font-size: 4rem;
+}
+
+.h1_firstword {
+  color: rgb(214, 214, 0);
+}
+
+.h1_secondword {
+  color: rgb(68, 68, 247);
+}
+
+header > p {
+  font-size: 2rem;
+}
+
+.btn_menu {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+main {
+  width: 90%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 5rem;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
