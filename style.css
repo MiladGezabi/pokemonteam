@@ -26,11 +26,11 @@ h1 {
 }
 
 .h1_firstword {
-  color: rgb(214, 214, 0);
+  color: #ffcb05
 }
 
 .h1_secondword {
-  color: rgb(68, 68, 247);
+  color: #2a75bb
 }
 
 header > p {
@@ -43,14 +43,84 @@ header > p {
   justify-content: center;
 }
 
+.btn_menu > button {
+  font-size: 2rem;
+  background-color: #2a75bb;
+  color: #ffcb05;
+  padding: 1rem;
+  border-radius: 1rem;
+  border: none;
+  cursor: pointer;
+  transition: 100ms;
+}
+
+.btn_menu > button:hover {
+  transform: translateY(0.1rem);
+  border-radius: 0.3rem;
+  background-color: #3085d5;
+}
+
 main {
   width: 90%;
-  margin: auto;
+  margin: 1rem auto;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  border: 1px solid red;
+}
+
+.team_container {
+  width: 100%;
+  border: 1px solid black;
+  text-align: center;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 5rem;
+}
+
+.team_container > h2 {
+  padding: 1rem 0rem;
+}
+
+.team_container > ol {
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
+}
+
+.team_container > ol > li {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.poke-img {
+  border: 1px solid black;
+  height: 5rem;
+}
+
+.reserve_container {
+  width: 100%;
+  border: 1px solid black;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.reserve_container > h3 {
+  padding: 1rem 0rem;
+}
+
+.reserve_container > ul {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+}
+
+.reserve_container > ul > li {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 footer {
@@ -58,3 +128,48 @@ footer {
   bottom: 0;
   left: 0;
 }
+
+
+/* --------------------------------------------------- */
+/* Här nedan ligger style kod för alla element som har skapats i javascript */
+
+.search_overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.search_popup {
+  position: relative;
+  height: 95%;
+  width: 95%;
+  border-radius: 1rem;
+  background-color: #ffcb05;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.close_button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  border: none;
+  background-color: transparent;
+  font-size: 2rem;
+  padding: 1rem;
+  cursor: pointer;
+}
+
+.search_input_container > * {
+  margin: 1rem;
+}
+
+.
