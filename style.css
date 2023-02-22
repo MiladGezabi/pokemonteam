@@ -10,6 +10,14 @@ html {
 
 body {
   background-color: rgb(87, 255, 199);
+  display: flex;
+  flex-direction: column;
+}
+
+#search-view {
+  min-width: 100%;
+  min-height: 100%;
+  background-color: #ffcb05;
 }
 
 header {
@@ -124,9 +132,7 @@ main {
 }
 
 footer {
-  position: absolute;
-  bottom: 0;
-  left: 0;
+ 
 }
 
 
@@ -134,9 +140,7 @@ footer {
 /* Här nedan ligger style kod för alla element som har skapats i javascript */
 
 .search_overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
+  
   display: flex;
   justify-content: center;
   align-items: center;
@@ -146,10 +150,11 @@ footer {
 }
 
 .search_popup {
-  position: relative;
-  height: 95%;
-  width: 95%;
-  border-radius: 1rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
   background-color: #ffcb05;
   display: flex;
   flex-direction: column;
