@@ -68,6 +68,49 @@ header > p {
   background-color: #3085d5;
 }
 
+.find-pokemon {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  background-color: #ffcb05;
+  display: grid;
+  gap: 1rem;
+}
+
+.search_input_container {
+  margin-top: 10rem;
+  grid-row-start: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  
+ 
+}
+
+.search_input_container > * {
+  margin: 1rem;
+}
+
+.search_input {
+  padding: 0.5rem;
+  border-radius: 1rem;
+}
+
+.search_button {
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 1rem;
+  background-color: #2a75bb;
+}
+
+.search_button:hover {
+  cursor: pointer;
+  background-color: #3085d5;
+  border-radius: 0.3;
+  transform: translateY(0.1rem);
+}
+
 main {
   width: 90%;
   margin: 1rem auto;
@@ -132,35 +175,14 @@ main {
 }
 
 footer {
- 
+ width: 100%;
 }
 
 
 /* --------------------------------------------------- */
 /* Här nedan ligger style kod för alla element som har skapats i javascript */
 
-.search_overlay {
-  
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(255, 255, 255, 0.5);
-}
 
-.search_popup {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  background-color: #ffcb05;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
-}
 
 .close_button {
   position: absolute;
@@ -173,45 +195,23 @@ footer {
   cursor: pointer;
 }
 
-.search_input_container {
-  margin-top: 10rem;
-}
 
-.search_input_container > * {
-  margin: 1rem;
-}
-
-.search_input {
-  padding: 0.5rem;
-  border-radius: 1rem;
-}
-
-.search_button {
-  font-size: 1.5rem;
-  padding: 0.5rem;
-  border: none;
-  border-radius: 1rem;
-  background-color: #2a75bb;
-}
-
-.search_button:hover {
-  cursor: pointer;
-  background-color: #3085d5;
-  border-radius: 0.3;
-  transform: translateY(0.1rem);
-}
 
 .search_output_container {
-  border: 1px dotted red;
   width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: .25rem;
+  margin-top: 1rem;
 }
 
-.search_output_container > ul > li {
+.pokemon-card {
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: space-between;
-  margin: 1rem 0;
+  text-align: center;
+  border: 1px solid rgb(16, 14, 14);
+  border-radius: .85rem;
 }
 
 
@@ -221,7 +221,7 @@ footer {
 }
 
 .image-box > img{
-  width: 40%;
+  width: 100%;
 }
 
 .name-box {
@@ -247,5 +247,19 @@ footer {
 }
 
 .choose_btn_box > button {
-  margin: 0 1rem;
+  margin: .5rem;
+}
+
+
+
+
+
+/* ---------------------------------------------*/
+.hide {
+  display: none;
+}
+
+.disable-button {
+  pointer-events: none;
+  opacity: 0.65;
 }

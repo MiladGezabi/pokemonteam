@@ -3,10 +3,15 @@ import { fetchData, fetchPokemon } from "./fetching.js";
 // Selektorer
 const body = document.querySelector("body");
 const findPokemonBtn = document.querySelector("#find-pokemon-btn");
+const findPokemonView = document.querySelector("#find-pokemon");
+const main = document.querySelector("main");
+const searchInputContainer = document.querySelector("#search_input_container")
+const searchInput = document.querySelector("#search_input");
+const searchBtn = document.querySelector("#search_button");
 
 
 
-
+findPokemonView.classList.toggle("hide", true)
 
 
 console.log("hello")
@@ -16,6 +21,7 @@ console.log("hello")
 
 let dataFromApi = null
 let pokemonDataFromApi = null
+let pokeName
 
 
 
@@ -26,6 +32,10 @@ let pokemonDataFromApi = null
 
 findPokemonBtn.addEventListener("click", () => {
 
+  main.classList.toggle("hide", true)
+  findPokemonBtn.classList.toggle("disable-button", true)
+  findPokemonView.classList.toggle("hide", false)
+  searchInput.classList.toggle("hide", true)
 
   // Element som skapas när man klickar på knappen.
 
@@ -36,48 +46,52 @@ findPokemonBtn.addEventListener("click", () => {
   closeOverlayBtn.classList.add("close_button");
   closeOverlayBtn.innerText = "Back";
 
-  // Eventlyssnare för close knappen.
+  // Eventlyssnare för back knappen.
   closeOverlayBtn.addEventListener("click", () => {
-    searchOverlay.remove()
+    main.classList.toggle("hide", false)
+    findPokemonBtn.classList.toggle("disable-button", false)
+    findPokemonView.classList.toggle("hide", true)
   })
 
-  let searchInputContainer = document.createElement("div");
-  searchInputContainer.classList.add("search_input_container");
-
+  
   let searchOutputContainer = document.createElement("div");
   searchOutputContainer.classList.add("search_output_container");
+  
+  
 
-  let searchInput = document.createElement("input");
-  searchInput.type = "text";
-  searchInput.placeholder = "Insert Pokemon name here"
-  searchInput.classList.add("search_input");
+  
+  searchInput.addEventListener("input", (e) => {
+    const value = e.target.value.toLowerCase();
+    const cardNameToLowerCase = document.querySelectorAll(".name-box");
+    
+    cardNameToLowerCase.forEach((pokeBox) => {
+      pokeBox.parentElement.style.display = "block";
 
-  let searchBtn = document.createElement("button");
-  searchBtn.classList.add("search_button");
-  searchBtn.innerText = "Search";
+      if (!pokeBox.innerHTML.toLowerCase().includes(value)) {
+        pokeBox.parentElement.style.display = "none";
+      }
+    })
+    
+    
 
-  let searchOutPutList = document.createElement("ul")
-
+    
+  })
+  
   // Eventlyssnare för search knappen.
   searchBtn.addEventListener("click",  async () => {
+    
+    searchInput.classList.toggle("hide", false);
+    searchBtn.classList.toggle("disable-button", true)
 
     
-
-    
-    // anropa funktionen från fetching filen för att hämta datan, detta ska göras en gång.
-    // updattera datafromapi 
-    // sökning = att ittera och gå genom alla element som har hämtats.
 
     
 
     try {
-      // const response = await fetch(url)
-      // const data = await response.json()
-      // console.log("pokemon data = ", data)
-
+      
       dataFromApi = await fetchData()
       console.log("här kommer data från api = ", dataFromApi)
-      const pokemonNames = dataFromApi.results.map( pokemon => {
+      let pokemonNames = dataFromApi.results.map( pokemon => {
         return pokemon.name
       })
       console.log("pokemon", pokemonNames)
@@ -88,28 +102,21 @@ findPokemonBtn.addEventListener("click", () => {
         console.log("här kommer lite mer data ", pokemonDataFromApi)
   
         
-        
-  
-  
-  
-        // let searchString = searchInput.value
-        // let searchStringFinal = name.includes(searchString)
   
         let image = pokemonDataFromApi.sprites.other["official-artwork"].front_default
-        let name = pokemonDataFromApi.name
+        pokeName = pokemonDataFromApi.name
         let abilityNames = pokemonDataFromApi.abilities.map(x => {
           return x.ability.name
         })
         console.log("abilityname kommer här ", abilityNames)
-        //   abily.ability.name
-        // })
+        
   
         let imageSpan = document.createElement("span")
         imageSpan.classList.add("image-box")
-        let nameSpan = document.createElement("span")
-        nameSpan.classList.add("name-box")
-        let abilitySpan = document.createElement("span")
-        abilitySpan.classList.add("ability-box")
+        let cardName = document.createElement("h3")
+        cardName.classList.add("name-box")
+        let cardAbility = document.createElement("p")
+        cardAbility.classList.add("ability-box")
         let chooseBtnBox = document.createElement("div")
         chooseBtnBox.classList.add("choose_btn_box")
         let chooseBtnTeam = document.createElement("button")
@@ -123,17 +130,18 @@ findPokemonBtn.addEventListener("click", () => {
         chooseBtnBox.append(chooseBtnReserve)
         
       
-        imageSpan.innerHTML = `<img src="${image}" alt="${name}" />`
-        nameSpan.innerText = name
-        abilitySpan.innerText = abilityNames
+        imageSpan.innerHTML = `<img src="${image}" alt="${pokeName}" />`
+        cardName.innerText = pokeName
+        cardAbility.innerText = abilityNames.join(", ")
       
-        let li = document.createElement("li")
-        li.append(imageSpan)
-        li.append(nameSpan)
-        li.append(abilitySpan)
-        li.append(chooseBtnBox)
+        let pokemonCard = document.createElement("div")
+        pokemonCard.classList.add("pokemon-card")
+        pokemonCard.append(imageSpan)
+        pokemonCard.append(cardName)
+        pokemonCard.append(cardAbility)
+        pokemonCard.append(chooseBtnBox)
       
-        searchOutPutList.append(li)
+        searchOutputContainer.append(pokemonCard)
       }
       
 
@@ -150,14 +158,10 @@ findPokemonBtn.addEventListener("click", () => {
   })
 
 
-  // Alla element som skapades läggs in id DOM.
-  body.append(searchPopup)
-  searchPopup.append(closeOverlayBtn);
-  searchPopup.append(searchInputContainer);
-  searchPopup.append(searchOutputContainer);
-  searchOutputContainer.append(searchOutPutList)
-  searchInputContainer.append(searchInput);
-  searchInputContainer.append(searchBtn);
+  
+  findPokemonView.append(closeOverlayBtn);
+  findPokemonView.append(searchInputContainer);
+  findPokemonView.append(searchOutputContainer);
   
 
 })
@@ -168,21 +172,3 @@ findPokemonBtn.addEventListener("click", () => {
 
 
 // Funktioner
-
-// funktion som visar pokemon.
-// function renderPokemon(image, name, ability) {
-//   let imageSpan = document.createElement("span")
-//   let nameSpan = document.createElement("span")
-//   let abilitySpan = document.createElement("span")
-
-//   imageSpan.innerHTML = image
-//   nameSpan.innerText = name
-//   abilitySpan.innerText = ability
-
-//   let li = document.createElement("li")
-//   li.append(imageSpan)
-//   li.append(nameSpan)
-//   li.append(abilitySpan)
-
-//   searchOutPutList.append(li)
-// }
