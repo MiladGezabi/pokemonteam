@@ -5,37 +5,43 @@ const body = document.querySelector("body");
 const findPokemonBtn = document.querySelector("#find-pokemon-btn");
 const findPokemonView = document.querySelector("#find-pokemon");
 const main = document.querySelector("main");
-const searchInputContainer = document.querySelector("#search_input_container")
+const searchInputContainer = document.querySelector("#search_input_container");
 const searchInput = document.querySelector("#search_input");
 const searchBtn = document.querySelector("#search_button");
+const chooseCustomeNameOverlay = document.querySelector(".choose_name_overlay");
 
 
 
+
+// globala toggles
 findPokemonView.classList.toggle("hide", true)
+searchInput.classList.toggle("hide", true)
+chooseCustomeNameOverlay.classList.toggle("hide", true)
 
 
-console.log("hello")
+
+
+
 
 
 // globala variablar
 
 let dataFromApi = null
 let pokemonDataFromApi = null
-let pokeName
+// let pokeName
 
 
 
 
 
 
-// Eventlyssnare
+// Eventlyssnare för find pokemons knappen.
 
 findPokemonBtn.addEventListener("click", () => {
 
   main.classList.toggle("hide", true)
   findPokemonBtn.classList.toggle("disable-button", true)
   findPokemonView.classList.toggle("hide", false)
-  searchInput.classList.toggle("hide", true)
 
   // Element som skapas när man klickar på knappen.
 
@@ -52,6 +58,7 @@ findPokemonBtn.addEventListener("click", () => {
     findPokemonBtn.classList.toggle("disable-button", false)
     findPokemonView.classList.toggle("hide", true)
   })
+  // ------------------------------------
 
   
   let searchOutputContainer = document.createElement("div");
@@ -59,7 +66,7 @@ findPokemonBtn.addEventListener("click", () => {
   
   
 
-  
+  // Eventlyssnare för inputfältet.
   searchInput.addEventListener("input", (e) => {
     const value = e.target.value.toLowerCase();
     const cardNameToLowerCase = document.querySelectorAll(".name-box");
@@ -76,8 +83,17 @@ findPokemonBtn.addEventListener("click", () => {
 
     
   })
+  // ---------------------------
+
+
+  // Eventlyssnare för choose-knapparna.
   
-  // Eventlyssnare för search knappen.
+  // -----
+
+  
+
+  
+  // Eventlyssnare för load pokemon knappen.
   searchBtn.addEventListener("click",  async () => {
     
     searchInput.classList.toggle("hide", false);
@@ -85,6 +101,16 @@ findPokemonBtn.addEventListener("click", () => {
 
     
 
+    let chooseBtnReserveAll = document.querySelectorAll(".reserve-button")
+        for(let i = 0; i < chooseBtnReserveAll.length; i++) {
+          let button = chooseBtnReserveAll[i]
+          button.addEventListener("click", event => {
+            let button = event.target
+            let pokemonCards = button.parentElement
+            let name = pokemonCards.querySelectorAll(".name-box")[0].innerText
+            console.log(name)
+          } )
+        }
     
 
     try {
@@ -104,7 +130,7 @@ findPokemonBtn.addEventListener("click", () => {
         
   
         let image = pokemonDataFromApi.sprites.other["official-artwork"].front_default
-        pokeName = pokemonDataFromApi.name
+        let pokeName = pokemonDataFromApi.name
         let abilityNames = pokemonDataFromApi.abilities.map(x => {
           return x.ability.name
         })
@@ -124,7 +150,7 @@ findPokemonBtn.addEventListener("click", () => {
         chooseBtnTeam.classList.add("choose_button")
         let chooseBtnReserve = document.createElement("button")
         chooseBtnReserve.innerText = "Put in reserve"
-        chooseBtnReserve.classList.add("choose_button")
+        chooseBtnReserve.classList.add("choose_button", "reserve-button")
   
         chooseBtnBox.append(chooseBtnTeam)
         chooseBtnBox.append(chooseBtnReserve)
@@ -142,12 +168,14 @@ findPokemonBtn.addEventListener("click", () => {
         pokemonCard.append(chooseBtnBox)
       
         searchOutputContainer.append(pokemonCard)
+        
       }
+
       
 
     } catch(error) {
       console.log("ett fel har inträffats: ", error.message)
-      searchOutPutList.remove()
+      searchOutputContainer.remove()
 
       let errorMessage = document.createElement("p")
       errorMessage.innerText = "Something went wrong, please try again later"
@@ -156,6 +184,8 @@ findPokemonBtn.addEventListener("click", () => {
 
     
   })
+
+  // ---------------------------------------------
 
 
   
@@ -166,9 +196,18 @@ findPokemonBtn.addEventListener("click", () => {
 
 })
 
+// ------------------------------------------------
+
 
 
 
 
 
 // Funktioner
+
+// function addToReserve(event) {
+//   let button = event.target
+//   let pokemonCard = button.parentElement.parentElement
+//   let name = pokemonCard.querySelectorAll(".name-box")[0].innerText
+//   console.log(name)
+// }

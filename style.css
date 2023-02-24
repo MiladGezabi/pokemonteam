@@ -75,6 +75,8 @@ header > p {
   background-color: #ffcb05;
   display: grid;
   gap: 1rem;
+  min-height: 100vh;
+  margin: 1rem 0;
 }
 
 .search_input_container {
@@ -117,31 +119,28 @@ main {
   display: grid;
   grid-template-rows: 1fr 1fr;
   border: 1px solid red;
+  min-height: 100vh;
 }
 
 .team_container {
   width: 100%;
   border: 1px solid black;
   text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  display: grid;
+  grid-template-rows: 1fr 6fr;
 }
 
 .team_container > h2 {
   padding: 1rem 0rem;
+  font-size: 2.5rem;
 }
 
-.team_container > ol {
-  display: grid;
-  grid-template-rows: 1fr 1fr 1fr;
-}
-
-.team_container > ol > li {
-  display: flex;
-  flex-direction: column;
+.team_cards_container {
   width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: .25rem;
+  margin-top: 1rem;
 }
 
 .poke-img {
@@ -161,17 +160,45 @@ main {
 
 .reserve_container > h3 {
   padding: 1rem 0rem;
+  font-size: 2.5rem;
 }
 
-.reserve_container > ul {
+.choose_name_overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0);
+  width: 100%;
+  height: 100vh;
+  align-content: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.choose_name_popup {
+  background-color: #ffcb05;
+  width: 80%;
   display: grid;
   grid-template-rows: 1fr 1fr;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  text-align: center;
 }
 
-.reserve_container > ul > li {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
+.choose-name-input-container {
+  font-size: 2rem;
+}
+
+.choose-name-input-container > label {
+  display: block;
+}
+
+.choose-name-input-container > input {
+  font-size: 2rem;
+  margin-top: 1rem;
+  border-radius: 0.5rem;
 }
 
 footer {
@@ -212,6 +239,7 @@ footer {
   text-align: center;
   border: 1px solid rgb(16, 14, 14);
   border-radius: .85rem;
+  /* background-color: rgb(87, 255, 199);; */
 }
 
 
@@ -235,6 +263,7 @@ footer {
 .choose_button {
   font-size: 1.5rem;
   padding: 0.5rem;
+  margin: 0.5rem;
   border: none;
   border-radius: 1rem;
   background-color: #2a75bb;
