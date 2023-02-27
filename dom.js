@@ -9,6 +9,12 @@ const searchInputContainer = document.querySelector("#search_input_container");
 const searchInput = document.querySelector("#search_input");
 const searchBtn = document.querySelector("#search_button");
 const chooseCustomeNameOverlay = document.querySelector(".choose_name_overlay");
+const chooseCustomeNamePopup = document.querySelector(".choose_name_popup");
+const customNameInput = document.querySelector("#choose-name-input");
+const teamContainer = document.querySelector(".team_container")
+const teamCardsContainer = document.querySelector(".team_cards_container");
+
+
 
 
 
@@ -28,7 +34,7 @@ chooseCustomeNameOverlay.classList.toggle("hide", true)
 
 let dataFromApi = null
 let pokemonDataFromApi = null
-// let pokeName
+
 
 
 
@@ -57,6 +63,8 @@ findPokemonBtn.addEventListener("click", () => {
     main.classList.toggle("hide", false)
     findPokemonBtn.classList.toggle("disable-button", false)
     findPokemonView.classList.toggle("hide", true)
+
+
   })
   // ------------------------------------
 
@@ -86,9 +94,7 @@ findPokemonBtn.addEventListener("click", () => {
   // ---------------------------
 
 
-  // Eventlyssnare för choose-knapparna.
   
-  // -----
 
   
 
@@ -101,16 +107,9 @@ findPokemonBtn.addEventListener("click", () => {
 
     
 
-    let chooseBtnReserveAll = document.querySelectorAll(".reserve-button")
-        for(let i = 0; i < chooseBtnReserveAll.length; i++) {
-          let button = chooseBtnReserveAll[i]
-          button.addEventListener("click", event => {
-            let button = event.target
-            let pokemonCards = button.parentElement
-            let name = pokemonCards.querySelectorAll(".name-box")[0].innerText
-            console.log(name)
-          } )
-        }
+    
+
+        
     
 
     try {
@@ -134,7 +133,6 @@ findPokemonBtn.addEventListener("click", () => {
         let abilityNames = pokemonDataFromApi.abilities.map(x => {
           return x.ability.name
         })
-        console.log("abilityname kommer här ", abilityNames)
         
   
         let imageSpan = document.createElement("span")
@@ -145,18 +143,15 @@ findPokemonBtn.addEventListener("click", () => {
         cardAbility.classList.add("ability-box")
         let chooseBtnBox = document.createElement("div")
         chooseBtnBox.classList.add("choose_btn_box")
-        let chooseBtnTeam = document.createElement("button")
-        chooseBtnTeam.innerText = "Put in team"
-        chooseBtnTeam.classList.add("choose_button")
         let chooseBtnReserve = document.createElement("button")
-        chooseBtnReserve.innerText = "Put in reserve"
+        chooseBtnReserve.innerText = "Catch Pokemon"
         chooseBtnReserve.classList.add("choose_button", "reserve-button")
   
-        chooseBtnBox.append(chooseBtnTeam)
+        
         chooseBtnBox.append(chooseBtnReserve)
         
       
-        imageSpan.innerHTML = `<img src="${image}" alt="${pokeName}" />`
+        imageSpan.innerHTML = `<img class="pokemon-image" src="${image}" alt="${pokeName}" />`
         cardName.innerText = pokeName
         cardAbility.innerText = abilityNames.join(", ")
       
@@ -180,7 +175,38 @@ findPokemonBtn.addEventListener("click", () => {
       let errorMessage = document.createElement("p")
       errorMessage.innerText = "Something went wrong, please try again later"
       errorMessage.classList.add("errormessage")
+      findPokemonView.append(errorMessage)
+      errorMessage.scrollIntoView({behavior: "smooth"})
     }
+
+
+    
+    
+
+       
+
+
+
+    let chooseBtnReserveAll = document.querySelectorAll(".reserve-button")
+        for(let i = 0; i < chooseBtnReserveAll.length; i++) {
+          let button = chooseBtnReserveAll[i]
+          button.addEventListener("click", event => {
+            let Button = event.target
+            let pokCard = Button.parentElement.parentElement
+            let pokName = pokCard.getElementsByClassName("name-box")[0].innerText
+            let pokAbility = pokCard.getElementsByClassName("ability-box")[0].innerText
+            let pokImage = pokCard.getElementsByClassName("pokemon-image")[0].src
+    
+            renderReserveCard(pokImage, pokName, pokAbility)
+            
+
+           
+              // findPokemonBtn.scrollIntoView({behavior: "smooth"})
+              
+            
+
+          })
+        }
 
     
   })
@@ -205,9 +231,59 @@ findPokemonBtn.addEventListener("click", () => {
 
 // Funktioner
 
-// function addToReserve(event) {
-//   let button = event.target
-//   let pokemonCard = button.parentElement.parentElement
-//   let name = pokemonCard.querySelectorAll(".name-box")[0].innerText
-//   console.log(name)
-// }
+function renderCardInTeam(pokImage, pokName, pokAbility){
+  let pokeCard = document.createElement("div")
+  pokeCard.classList.add("pokemon-card")
+  if(teamCardsContainer.children.length < 3){
+    
+    pokeCard.innerHTML = `
+    <span class="image-box" > <img src="${pokImage}" alt="${pokName}" /> </span>
+    <h3 class="name-box" > ${pokName} </h3>
+    <p class="ability-box" > ${pokAbility} </p>
+    <button class="choose_button kick" > Kick </button>
+    `
+    pokeCard.querySelector("button").addEventListener("click", () => {
+      pokeCard.remove()
+    })
+    teamCardsContainer.append(pokeCard)
+    
+  } else {
+    let slotFullOverlay = document.createElement("div")
+    slotFullOverlay.classList.add("slot-full-overlay")
+    let slotFullMessage = document.createElement("p")
+    slotFullMessage.innerText = "Your team is full"
+    slotFullMessage.classList.add("slot-full-message")
+    
+    slotFullOverlay.append(slotFullMessage)
+    teamContainer.append(slotFullOverlay)
+    slotFullOverlay.addEventListener("click", () => {
+      slotFullOverlay.remove()
+    })
+
+    }
+}
+
+
+
+function renderReserveCard(pokImage, pokName, pokAbility) {
+  let pokeCard = document.createElement("div")
+  pokeCard.classList.add("pokemon-card")
+  let reserveContainer = document.querySelector(".reserve_cards_container")
+
+  pokeCard.innerHTML = `
+  <span class="image-box" > <img src="${pokImage}" alt="${pokName}" /> </span>
+  <h3 class="name-box" > ${pokName} </h3>
+  <p class="ability-box" > ${pokAbility} </p>
+  <button class="choose_button team-button" > Move to team </button>
+
+  `
+  pokeCard.querySelector("button").addEventListener("click", () => {
+    renderCardInTeam(pokImage, pokName, pokAbility)
+    findPokemonBtn.scrollIntoView({behavior: "smooth"})
+    if(teamCardsContainer.children.length < 3) {
+      pokeCard.remove()
+    }
+  })
+  reserveContainer.append(pokeCard)
+
+}
