@@ -11,7 +11,8 @@ const searchBtn = document.querySelector("#search_button");
 const chooseCustomeNameOverlay = document.querySelector(".choose_name_overlay");
 const chooseCustomeNamePopup = document.querySelector(".choose_name_popup");
 const customNameInput = document.querySelector("#choose-name-input");
-const teamContainer = document.querySelector(".team_container")
+const customNameButton = document.querySelector(".name-accept-btn");
+const teamContainer = document.querySelector(".team_container");
 const teamCardsContainer = document.querySelector(".team_cards_container");
 
 
@@ -34,6 +35,12 @@ chooseCustomeNameOverlay.classList.toggle("hide", true)
 
 let dataFromApi = null
 let pokemonDataFromApi = null
+
+
+// generella eventlyssnare.
+chooseCustomeNameOverlay.addEventListener("click", () => {
+  chooseCustomeNameOverlay.classList.toggle("hide", true);
+})
 
 
 
@@ -201,7 +208,7 @@ findPokemonBtn.addEventListener("click", () => {
             
 
            
-              // findPokemonBtn.scrollIntoView({behavior: "smooth"})
+              
               
             
 
@@ -240,9 +247,23 @@ function renderCardInTeam(pokImage, pokName, pokAbility){
     <span class="image-box" > <img src="${pokImage}" alt="${pokName}" /> </span>
     <h3 class="name-box" > ${pokName} </h3>
     <p class="ability-box" > ${pokAbility} </p>
+    <button class="custom-name" > Name your pokemon </button>
     <button class="choose_button kick" > Kick </button>
     `
-    pokeCard.querySelector("button").addEventListener("click", () => {
+
+    pokeCard.querySelector(".custom-name").addEventListener("click", () => {
+      chooseCustomeNameOverlay.classList.toggle("hide", false)
+      customNameButton.addEventListener("click", () => {
+        let nameInputValue = customNameInput.value
+        let customName = pokeCard.querySelector(".name-box")
+        let pokeName = customName.innerText
+        customName.innerText = `${pokeName} "${nameInputValue}"`
+        chooseCustomeNameOverlay.classList.toggle("hide", true)
+      })
+
+    })
+
+    pokeCard.querySelector(".kick").addEventListener("click", () => {
       pokeCard.remove()
     })
     teamCardsContainer.append(pokeCard)
