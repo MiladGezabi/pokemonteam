@@ -310,12 +310,12 @@ function renderReserveCard(pokImage, pokName, pokAbility) {
   <button class="choose_button team-button" > Move to team </button>
 
   `
-  pokeCard.querySelector("button").addEventListener("click", () => {
+  pokeCard.querySelector("button").addEventListener("click", event => {
     renderCardInTeam(pokImage, pokName, pokAbility)
     findPokemonBtn.scrollIntoView({behavior: "smooth"})
     if(teamCardsContainer.children.length < 3) {
       pokeCard.remove()
-    }
+    } 
   })
   reserveContainer.append(pokeCard)
 
