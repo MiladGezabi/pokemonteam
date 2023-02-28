@@ -14,6 +14,7 @@ const customNameInput = document.querySelector("#choose-name-input");
 const customNameButton = document.querySelector(".name-accept-btn");
 const teamContainer = document.querySelector(".team_container");
 const teamCardsContainer = document.querySelector(".team_cards_container");
+const backToTopBtn = document.querySelector(".back-to-top-btn");
 
 
 
@@ -21,9 +22,11 @@ const teamCardsContainer = document.querySelector(".team_cards_container");
 
 
 // globala toggles
-findPokemonView.classList.toggle("hide", true)
-searchInput.classList.toggle("hide", true)
-chooseCustomeNameOverlay.classList.toggle("hide", true)
+findPokemonView.classList.toggle("hide", true);
+searchInput.classList.toggle("hide", true);
+chooseCustomeNameOverlay.classList.toggle("hide", true);
+
+window.onscroll = function() {scrollFunction()};
 
 
 
@@ -40,6 +43,15 @@ let pokemonDataFromApi = null
 // generella eventlyssnare.
 chooseCustomeNameOverlay.addEventListener("click", () => {
   chooseCustomeNameOverlay.classList.toggle("hide", true);
+})
+
+chooseCustomeNamePopup.addEventListener("click", event => {
+  event.stopPropagation()
+})
+
+backToTopBtn.addEventListener("click", () => {
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
 })
 
 
@@ -247,12 +259,13 @@ function renderCardInTeam(pokImage, pokName, pokAbility){
     <span class="image-box" > <img src="${pokImage}" alt="${pokName}" /> </span>
     <h3 class="name-box" > ${pokName} </h3>
     <p class="ability-box" > ${pokAbility} </p>
-    <button class="custom-name" > Name your pokemon </button>
+    <button class="choose_button custom-name" > Name your pokemon </button>
     <button class="choose_button kick" > Kick </button>
     `
 
     pokeCard.querySelector(".custom-name").addEventListener("click", () => {
       chooseCustomeNameOverlay.classList.toggle("hide", false)
+      
       customNameButton.addEventListener("click", () => {
         let nameInputValue = customNameInput.value
         let customName = pokeCard.querySelector(".name-box")
@@ -260,7 +273,6 @@ function renderCardInTeam(pokImage, pokName, pokAbility){
         customName.innerText = `${pokeName} "${nameInputValue}"`
         chooseCustomeNameOverlay.classList.toggle("hide", true)
       })
-
     })
 
     pokeCard.querySelector(".kick").addEventListener("click", () => {
@@ -307,4 +319,13 @@ function renderReserveCard(pokImage, pokName, pokAbility) {
   })
   reserveContainer.append(pokeCard)
 
+}
+
+
+function scrollFunction() {
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    backToTopBtn.style.display = "block";
+  } else {
+    backToTopBtn.style.display = "none";
+  }
 }
