@@ -11,7 +11,7 @@ const searchBtn = document.querySelector("#search_button");
 const chooseCustomeNameOverlay = document.querySelector(".choose_name_overlay");
 const chooseCustomeNamePopup = document.querySelector(".choose_name_popup");
 const customNameInput = document.querySelector("#choose-name-input");
-const customNameButton = document.querySelector(".name-accept-btn");
+const customNameButtonContainer = document.querySelector(".choose-name-btn-container");
 const teamContainer = document.querySelector(".team_container");
 const teamCardsContainer = document.querySelector(".team_cards_container");
 const backToTopBtn = document.querySelector(".back-to-top-btn");
@@ -38,6 +38,8 @@ window.onscroll = function() {scrollFunction()};
 
 let dataFromApi = null
 let pokemonDataFromApi = null
+
+
 
 
 // generella eventlyssnare.
@@ -263,8 +265,13 @@ function renderCardInTeam(pokImage, pokName, pokAbility){
     <button class="choose_button kick" > Kick </button>
     `
 
-    pokeCard.querySelector(".custom-name").addEventListener("click", () => {
+    pokeCard.querySelector(".custom-name").addEventListener("click", event => {
       chooseCustomeNameOverlay.classList.toggle("hide", false)
+      let customNameButton = document.createElement("button");
+      customNameButton.innerText = "Accept"
+      customNameButton.classList.add("choose_button");
+      customNameButtonContainer.append(customNameButton);
+      pokeCard.querySelector(".name-box").innerText = pokName
       
       customNameButton.addEventListener("click", () => {
         let nameInputValue = customNameInput.value
@@ -272,6 +279,8 @@ function renderCardInTeam(pokImage, pokName, pokAbility){
         let pokeName = customName.innerText
         customName.innerText = `${pokeName} "${nameInputValue}"`
         chooseCustomeNameOverlay.classList.toggle("hide", true)
+        console.log("customNameButton clicked", customNameButton)
+        customNameButton.remove()
       })
     })
 
@@ -313,7 +322,9 @@ function renderReserveCard(pokImage, pokName, pokAbility) {
   pokeCard.querySelector("button").addEventListener("click", event => {
     renderCardInTeam(pokImage, pokName, pokAbility)
     findPokemonBtn.scrollIntoView({behavior: "smooth"})
-    if(teamCardsContainer.children.length < 3) {
+    let cardRemoverCount = 0
+    if(cardRemoverCount < 2) {
+      cardRemoverCount++
       pokeCard.remove()
     } 
   })
