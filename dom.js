@@ -290,17 +290,7 @@ function renderCardInTeam(pokImage, pokName, pokAbility){
     teamCardsContainer.append(pokeCard)
     
   } else {
-    let slotFullOverlay = document.createElement("div")
-    slotFullOverlay.classList.add("slot-full-overlay")
-    let slotFullMessage = document.createElement("p")
-    slotFullMessage.innerText = "Your team is full"
-    slotFullMessage.classList.add("slot-full-message")
     
-    slotFullOverlay.append(slotFullMessage)
-    teamContainer.append(slotFullOverlay)
-    slotFullOverlay.addEventListener("click", () => {
-      slotFullOverlay.remove()
-    })
 
     }
 }
@@ -320,13 +310,25 @@ function renderReserveCard(pokImage, pokName, pokAbility) {
 
   `
   pokeCard.querySelector("button").addEventListener("click", event => {
-    renderCardInTeam(pokImage, pokName, pokAbility)
-    findPokemonBtn.scrollIntoView({behavior: "smooth"})
-    let cardRemoverCount = 0
-    if(cardRemoverCount < 2) {
-      cardRemoverCount++
+    if(teamCardsContainer.children.length < 3) {
+      renderCardInTeam(pokImage, pokName, pokAbility)
+      findPokemonBtn.scrollIntoView({behavior: "smooth"})
       pokeCard.remove()
-    } 
+
+    }else {
+      let slotFullOverlay = document.createElement("div")
+    slotFullOverlay.classList.add("slot-full-overlay")
+    let slotFullMessage = document.createElement("p")
+    slotFullMessage.innerText = "Your team is full"
+    slotFullMessage.classList.add("slot-full-message")
+    
+    slotFullOverlay.append(slotFullMessage)
+    teamContainer.append(slotFullOverlay)
+    slotFullOverlay.addEventListener("click", () => {
+      slotFullOverlay.remove()
+    })
+    }
+    
   })
   reserveContainer.append(pokeCard)
 
