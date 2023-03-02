@@ -400,10 +400,10 @@ footer > * {
 
 
 
-@media screen and (min-width: 692px) {
-  .team_cards_container,
-  .reserve_cards_container {
-    place-content: center;
+@media screen and (min-width: 834px) {
+  .team_cards_container {
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-items: center;
   }
 }
 
