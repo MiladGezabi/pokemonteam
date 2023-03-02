@@ -13,7 +13,7 @@ async function fetchPokemon(name) {
 
 async function fetchData() {
     
-    let url = `https://pokeapi.co/api/v2/pokemon?limit=20&offset=0`
+    let url = `https://pokeapi.co/api/v2/pokemon?limit=150&offset=0`
 
     let response = await fetch(url);
     let data = await response.json();

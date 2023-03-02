@@ -1,3 +1,5 @@
+
+/* All styling kod kommer i samma ordning som html */
 * {
   margin: 0;
   padding: 0;
@@ -88,7 +90,7 @@ header > p {
   z-index: 99; 
   border: none; 
   outline: none; 
-  background-color: rgba(227, 227, 227, 0.7); 
+  background-color: rgba(0, 0, 0, 0.8); 
   color: white; 
   cursor: pointer; 
   padding: 15px; 
@@ -102,8 +104,6 @@ header > p {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  
- 
 }
 
 .search_input_container > * {
@@ -146,6 +146,7 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-evenly;
 }
 
 .team_container > h2 {
@@ -153,11 +154,16 @@ main {
   font-size: 2.5rem;
 }
 
+.team-status {
+  display: block;
+  font-size: 2rem;
+}
+
 .team_cards_container {
-  width: 100%;
+  width: 90%;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: .25rem;
+  gap: 2rem;
   margin-top: 1rem;
 }
 
@@ -279,6 +285,8 @@ footer > * {
   text-align: center;
   border: 1px solid rgb(16, 14, 14);
   border-radius: .85rem;
+  padding: 0.5rem;
+  overflow-x: hidden;
   
 }
 
@@ -378,8 +386,10 @@ footer > * {
 
 .team-button,
 .kick,
- .custom-name{
-  margin: 0.5rem;
+ .custom-name,
+ .move-to-reserve,
+ .rearange{
+  margin-bottom: 0.2rem;
 }
 
 
@@ -394,6 +404,13 @@ footer > * {
   .team_cards_container,
   .reserve_cards_container {
     place-content: center;
+  }
+}
+
+@media screen and (max-width: 415px) {
+  .team_cards_container {
+    grid-template-rows: 1fr 1fr 1fr;
+    justify-items: center;
   }
 }
 

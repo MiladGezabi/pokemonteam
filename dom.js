@@ -15,6 +15,7 @@ const customNameButtonContainer = document.querySelector(".choose-name-btn-conta
 const teamContainer = document.querySelector(".team_container");
 const teamCardsContainer = document.querySelector(".team_cards_container");
 const backToTopBtn = document.querySelector(".back-to-top-btn");
+const teamStatus = document.querySelector(".team-status");
 
 
 
@@ -132,7 +133,7 @@ findPokemonBtn.addEventListener("click", () => {
 
         
     
-
+    // Hämtar data from fetching.js
     try {
       
       dataFromApi = await fetchData()
@@ -174,7 +175,7 @@ findPokemonBtn.addEventListener("click", () => {
       
         imageSpan.innerHTML = `<img class="pokemon-image" src="${image}" alt="${pokeName}" />`
         cardName.innerText = pokeName
-        cardAbility.innerText = abilityNames.join(", ")
+        cardAbility.innerText = abilityNames.join(",  ")
       
         let pokemonCard = document.createElement("div")
         pokemonCard.classList.add("pokemon-card")
@@ -252,20 +253,23 @@ findPokemonBtn.addEventListener("click", () => {
 
 // Funktioner
 
+// Flytar pokemon till team.
 function renderCardInTeam(pokImage, pokName, pokAbility){
   let pokeCard = document.createElement("div")
   pokeCard.classList.add("pokemon-card")
   if(teamCardsContainer.children.length < 3){
     
+    
     pokeCard.innerHTML = `
     <span class="image-box" > <img src="${pokImage}" alt="${pokName}" /> </span>
     <h3 class="name-box" > ${pokName} </h3>
     <p class="ability-box" > ${pokAbility} </p>
+    <button class="choose_button rearange" > Rearange </button>
     <button class="choose_button custom-name" > Name your pokemon </button>
-    <button class="choose_button kick" > Kick </button>
+    <button class="choose_button move-to-reserve" > Move to reserve </button>
     `
 
-    pokeCard.querySelector(".custom-name").addEventListener("click", event => {
+    pokeCard.querySelector(".custom-name").addEventListener("click", () => {
       chooseCustomeNameOverlay.classList.toggle("hide", false)
       let customNameButton = document.createElement("button");
       customNameButton.innerText = "Accept"
@@ -284,19 +288,23 @@ function renderCardInTeam(pokImage, pokName, pokAbility){
       })
     })
 
-    pokeCard.querySelector(".kick").addEventListener("click", () => {
+    pokeCard.querySelector(".move-to-reserve").addEventListener("click", () => {
+      renderReserveCard(pokImage, pokName, pokAbility)
       pokeCard.remove()
     })
     teamCardsContainer.append(pokeCard)
+
+    pokeCard.querySelector(".rearange").addEventListener("click", () => {
+      teamCardsContainer.prepend(pokeCard)
+    })
     
   } else {
-    
 
     }
 }
 
 
-
+// flyttar pokemons till reserve.
 function renderReserveCard(pokImage, pokName, pokAbility) {
   let pokeCard = document.createElement("div")
   pokeCard.classList.add("pokemon-card")
@@ -307,29 +315,42 @@ function renderReserveCard(pokImage, pokName, pokAbility) {
   <h3 class="name-box" > ${pokName} </h3>
   <p class="ability-box" > ${pokAbility} </p>
   <button class="choose_button team-button" > Move to team </button>
+  <button class="choose_button kick" > Kick </button>
 
   `
-  pokeCard.querySelector("button").addEventListener("click", event => {
+  pokeCard.querySelector("button").addEventListener("click", () => {
     if(teamCardsContainer.children.length < 3) {
       renderCardInTeam(pokImage, pokName, pokAbility)
       findPokemonBtn.scrollIntoView({behavior: "smooth"})
       pokeCard.remove()
 
+      teamStatus.innerText = "Team status: Unfilled"
+
     }else {
       let slotFullOverlay = document.createElement("div")
-    slotFullOverlay.classList.add("slot-full-overlay")
-    let slotFullMessage = document.createElement("p")
-    slotFullMessage.innerText = "Your team is full"
-    slotFullMessage.classList.add("slot-full-message")
-    
-    slotFullOverlay.append(slotFullMessage)
-    teamContainer.append(slotFullOverlay)
-    slotFullOverlay.addEventListener("click", () => {
-      slotFullOverlay.remove()
-    })
+      slotFullOverlay.classList.add("slot-full-overlay")
+      let slotFullMessage = document.createElement("p")
+      slotFullMessage.innerText = "Your team is full"
+      slotFullMessage.classList.add("slot-full-message")
+      
+      
+      slotFullOverlay.append(slotFullMessage)
+      teamContainer.append(slotFullOverlay)
+      slotFullOverlay.addEventListener("click", () => {
+        slotFullOverlay.remove()
+      })
+    }
+    if(teamCardsContainer.children.length == 3) {
+      teamStatus.innerText = "Team status: Filled"
+      
     }
     
   })
+
+  pokeCard.querySelector(".kick").addEventListener("click", () => {
+    pokeCard.remove()
+  })
+
   reserveContainer.append(pokeCard)
 
 }
