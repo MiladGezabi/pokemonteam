@@ -1,4 +1,5 @@
 import { fetchData, fetchPokemon } from "./fetching.js";
+import { notis } from "./function.js";
 
 // Selektorer
 const body = document.querySelector("body");
@@ -137,16 +138,16 @@ findPokemonBtn.addEventListener("click", () => {
     try {
       
       dataFromApi = await fetchData()
-      console.log("här kommer data från api = ", dataFromApi)
+      
       let pokemonNames = dataFromApi.results.map( pokemon => {
         return pokemon.name
       })
-      console.log("pokemon", pokemonNames)
+      
 
       for(let i = 0; i < pokemonNames.length; i++){
 
         pokemonDataFromApi = await fetchPokemon(pokemonNames[i])
-        console.log("här kommer lite mer data ", pokemonDataFromApi)
+        
   
         
   
@@ -221,7 +222,7 @@ findPokemonBtn.addEventListener("click", () => {
     
             renderReserveCard(pokImage, pokName, pokAbility)
             
-
+            notis(body)
            
               
               
